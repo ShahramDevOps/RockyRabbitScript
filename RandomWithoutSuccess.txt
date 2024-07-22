@@ -1,0 +1,42 @@
+// Function to shuffle an array, excluding specific indices
+function shuffle(array, excludeIndices) {
+    let filteredArray = array.filter((_, index) => !excludeIndices.includes(index));
+    
+    for (let i = filteredArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [filteredArray[i], filteredArray[j]] = [filteredArray[j], filteredArray[i]];
+    }
+
+    let resultArray = [];
+    let shuffleIndex = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        if (excludeIndices.includes(i)) {
+            resultArray.push(array[i]);
+        } else {
+            resultArray.push(filteredArray[shuffleIndex]);
+            shuffleIndex++;
+        }
+    }
+
+    return resultArray;
+}
+
+// Collect all elements with the data-index attribute
+const elements = document.querySelectorAll('[data-index]');
+const values = Array.from(elements).map(el => el.querySelector('.truncate').innerText);
+
+// Determine which indices should be excluded from the shuffle
+const excludeIndices = Array.from(elements).map((el, index) => 
+    el.classList.contains('border-emerald-400') && el.classList.contains('text-emerald-400') ? index : -1
+).filter(index => index !== -1);
+
+// Shuffle the values, excluding the specified indices
+const shuffledValues = shuffle(values, excludeIndices);
+
+// Assign the shuffled values back to the elements
+shuffledValues.forEach((value, index) => {
+    elements[index].querySelector('.truncate').innerText = value;
+});
+
+console.log("Values have been shuffled, excluding specified elements!");
