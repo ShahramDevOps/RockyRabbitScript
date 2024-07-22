@@ -1,0 +1,36 @@
+// Replace these arrays with the captured values and classes
+const emeraldValues = JSON.parse('[ "army", "barely", "garden" ]');
+const emeraldClasses = JSON.parse('[ "flex items-center text-ltr text-left relative z-0 border-emerald-400 text-emerald-400", "flex items-center text-ltr text-left relative z-0 border-emerald-400 text-emerald-400", "flex items-center text-ltr text-left relative z-0 border-emerald-400 text-emerald-400" ]');
+const otherValues = JSON.parse('[ "erupt", "universe", "valid", "victory", "question", "sick", "hand", "hurdle", "ceiling" ]');
+const otherClasses = JSON.parse('[ "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400", "flex items-center text-ltr text-left relative z-0 border-slate-400" ]');
+
+// Collect all elements with the data-index attribute
+const elements = document.querySelectorAll('[data-index]');
+
+// Shuffle the otherValues while keeping emerald elements in place
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+shuffleArray(otherValues);
+
+// Update elements with shuffled values and restore classes
+elements.forEach(el => {
+    const index = el.dataset.index;
+    const isEmerald = el.classList.contains('border-emerald-400') && el.classList.contains('text-emerald-400');
+    
+    if (isEmerald) {
+        const emeraldIndex = emeraldElements.find(e => e.index === index);
+        el.querySelector('.truncate').innerText = emeraldIndex.text;
+        el.className = emeraldIndex.classes;
+    } else {
+        const otherIndex = otherElements.find(e => e.index === index);
+        el.querySelector('.truncate').innerText = otherValues.shift();
+        el.className = otherIndex.classes;
+    }
+});
+
+console.log("Values have been shuffled and placed back with styles.");

@@ -1,0 +1,34 @@
+const elements = document.querySelectorAll('[data-index]');
+
+// Separate lists for elements with and without the emerald classes
+const emeraldElements = [];
+const otherElements = [];
+
+// Arrays to store values, class names, and indices
+const emeraldValues = [];
+const emeraldClasses = [];
+const otherValues = [];
+const otherClasses = [];
+
+// Iterate over elements and separate based on class
+elements.forEach(el => {
+    const text = el.querySelector('.truncate').innerText;
+    const classes = el.className;
+    const index = el.dataset.index;
+    
+    if (el.classList.contains('border-emerald-400') && el.classList.contains('text-emerald-400')) {
+        emeraldElements.push({ index, text, classes });
+        emeraldValues.push(text);
+        emeraldClasses.push(classes);
+    } else {
+        otherElements.push({ index, text, classes });
+        otherValues.push(text);
+        otherClasses.push(classes);
+    }
+});
+
+// Output the results to the console
+console.log("Emerald Elements:", JSON.stringify(emeraldElements, null, 2));
+console.log("Other Elements:", JSON.stringify(otherElements, null, 2));
+console.log("Emerald Values Array:", JSON.stringify(emeraldValues));
+console.log("Other Values Array:", JSON.stringify(otherValues));
